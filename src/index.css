@@ -1,0 +1,63 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap');
+
+@theme {
+  --color-gold: #D4AF37;
+  --color-gold-light: #F1D38E;
+  --color-gold-dark: #B8860B;
+  --color-pale-pink: #FADADD;
+  --color-beige: #F5F2ED;
+  --color-sky-blue: #A7C7E7;
+  --color-luxury-brown: #5D4037;
+  
+  --font-serif: "Bodoni Moda", serif;
+  --font-sans: "Bodoni Moda", serif;
+}
+
+@layer base {
+  body {
+    @apply bg-beige text-luxury-brown font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-medium;
+  }
+}
+
+.glass-nav {
+  @apply bg-beige/90 backdrop-blur-md border-b-2 border-gold/30;
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #B8860B 0%, #D4AF37 50%, #F1D38E 100%);
+}
+
+.gold-border {
+  @apply border border-gold/40 shadow-[0_0_15px_rgba(212,175,55,0.1)];
+}
+
+.text-gold-gradient {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(135deg, #B8860B 0%, #D4AF37 50%, #F1D38E 100%);
+}
+
+.gold-glow {
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+/* Custom scrollbar for luxury feel */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-beige;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gold/30 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gold/50;
+}
