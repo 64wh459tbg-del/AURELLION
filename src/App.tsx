@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll } from 'motion/react';
 import { Menu, X, Instagram, Facebook, Mail, MapPin, Phone, ChevronRight, ArrowRight, Sparkles, Search, ShoppingBag, Plus, Minus, Trash2, CreditCard, Banknote, Clock, Truck, Store, Building, Heart } from 'lucide-react';
+import { useTranslation } from './lib/i18n.tsx';
 
 // --- Types ---
-type Page = 'home' | 'brand' | 'collections' | 'signature' | 'contact' | 'product-detail' | 'register' | 'search' | 'checkout' | 'wishlist' | 'deliveries-returns' | 'size-guide' | 'jewelry-care' | 'legal' | 'privacy';
+type Page = 'home' | 'brand' | 'collections' | 'signature' | 'contact' | 'product-detail' | 'register' | 'search' | 'checkout' | 'wishlist' | 'deliveries-returns' | 'size-guide' | 'jewelry-care' | 'legal' | 'privacy' | 'ring-sizer-request' | 'care-appointment';
+type Language = 'fr' | 'en';
 
 interface CartItem {
   id: number;
@@ -228,17 +230,20 @@ const FEATURED_PRODUCT: Product = {
 
 // --- Components ---
 
-const BackButton = ({ onClick, light = false }: { onClick: () => void, light?: boolean }) => (
-  <motion.button 
-    initial={{ opacity: 0, x: -10 }}
-    animate={{ opacity: 1, x: 0 }}
-    onClick={onClick}
-    className={`flex items-center space-x-2 transition-colors mb-8 group ${light ? 'text-white/70 hover:text-white' : 'text-luxury-brown/50 hover:text-gold'}`}
-  >
-    <ArrowRight size={16} className={`rotate-180 group-hover:-translate-x-1 transition-transform ${light ? 'text-white/70' : ''}`} />
-    <span className="text-[10px] uppercase tracking-[0.2em] font-bold">Retour</span>
-  </motion.button>
-);
+const BackButton = ({ onClick, light = false }: { onClick: () => void, light?: boolean }) => {
+  const { t } = useTranslation();
+  return (
+    <motion.button 
+      initial={{ opacity: 0, x: -10 }}
+      animate={{ opacity: 1, x: 0 }}
+      onClick={onClick}
+      className={`flex items-center space-x-2 transition-colors mb-8 group ${light ? 'text-white/70 hover:text-white' : 'text-luxury-brown/50 hover:text-gold'}`}
+    >
+      <ArrowRight size={16} className={`rotate-180 group-hover:-translate-x-1 transition-transform ${light ? 'text-white/70' : ''}`} />
+      <span className="text-[10px] uppercase tracking-[0.2em] font-bold">{t('common.back')}</span>
+    </motion.button>
+  );
+};
 
 const NAVBAR_ITEMS: { id: Page; label: string }[] = [
   { id: 'home', label: 'Accueil' },
@@ -259,16 +264,17 @@ const Navbar = ({ currentPage, setPage, cartCount, wishlistCount, onOpenCart, on
   user: { firstName: string } | null,
   onLogout: () => void
 }) => {
+  const { language, setLanguage, t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const menuItems: { id: Page; label: string }[] = [
-    { id: 'home', label: 'Accueil' },
-    { id: 'brand', label: 'La Marque' },
-    { id: 'collections', label: 'Collections' },
-    { id: 'signature', label: 'Pièce Signature' },
-    { id: 'contact', label: 'Contact' },
-    { id: 'register', label: user ? 'Mon Compte' : 'Compte' },
+    { id: 'home', label: t('nav.home') },
+    { id: 'brand', label: t('nav.brand') },
+    { id: 'collections', label: t('nav.collections') },
+    { id: 'signature', label: t('nav.signature') },
+    { id: 'contact', label: t('nav.contact') },
+    { id: 'register', label: user ? t('nav.my_account') : t('nav.account') },
   ];
 
   return (
@@ -300,9 +306,24 @@ const Navbar = ({ currentPage, setPage, cartCount, wishlistCount, onOpenCart, on
               onClick={onLogout}
               className="text-[9px] uppercase tracking-widest text-luxury-brown/40 hover:text-red-500 transition-colors border-l border-gold/20 pl-4"
             >
-              Déconnexion
+              {t('nav.logout')}
             </button>
           )}
+          <div className="flex items-center space-x-6 pl-4 border-l border-gold/10 ml-4 h-4">
+            <button 
+              onClick={() => setLanguage('fr')}
+              className={`text-[9px] font-bold tracking-widest transition-colors ${language === 'fr' ? 'text-gold' : 'text-luxury-brown/30 hover:text-luxury-brown/60'}`}
+            >
+              FR
+            </button>
+            <span className="text-luxury-brown/10 text-[9px]">|</span>
+            <button 
+              onClick={() => setLanguage('en')}
+              className={`text-[9px] font-bold tracking-widest transition-colors ${language === 'en' ? 'text-gold' : 'text-luxury-brown/30 hover:text-luxury-brown/60'}`}
+            >
+              EN
+            </button>
+          </div>
           <div className="flex items-center space-x-6 pl-4">
             <button 
               onClick={() => setPage('search')}
@@ -382,7 +403,7 @@ const Navbar = ({ currentPage, setPage, cartCount, wishlistCount, onOpenCart, on
             exit={{ opacity: 0, y: -20 }}
             className="absolute top-full left-0 w-full bg-beige border-b border-gold/10 p-8 xl:hidden flex flex-col space-y-6"
           >
-            {NAVBAR_ITEMS.map((item) => (
+            {menuItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => {
@@ -396,6 +417,22 @@ const Navbar = ({ currentPage, setPage, cartCount, wishlistCount, onOpenCart, on
                 {item.label}
               </button>
             ))}
+            {/* Mobile Language Switcher */}
+            <div className="flex items-center space-x-4 pt-4 border-t border-gold/10">
+              <button 
+                onClick={() => setLanguage('fr')}
+                className={`text-xs font-bold tracking-widest ${language === 'fr' ? 'text-gold' : 'text-luxury-brown/40'}`}
+              >
+                FR
+              </button>
+              <span className="text-luxury-brown/10 text-xs">|</span>
+              <button 
+                onClick={() => setLanguage('en')}
+                className={`text-xs font-bold tracking-widest ${language === 'en' ? 'text-gold' : 'text-luxury-brown/40'}`}
+              >
+                EN
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -404,6 +441,7 @@ const Navbar = ({ currentPage, setPage, cartCount, wishlistCount, onOpenCart, on
 };
 
 const Footer = ({ setPage }: { setPage: (p: Page) => void }) => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -443,7 +481,7 @@ const Footer = ({ setPage }: { setPage: (p: Page) => void }) => {
         <div className="space-y-6">
           <h3 className="text-xl font-serif tracking-widest uppercase">Aurelion</h3>
           <p className="text-sm text-luxury-brown/60 leading-relaxed italic">
-            "Là où le corps devient œuvre d'art"
+            {t('footer.tagline')}
           </p>
           <div className="flex space-x-4">
             <a href="https://www.instagram.com/elise_aurelion/" target="_blank" rel="noopener noreferrer" className="text-gold hover:opacity-70 transition-opacity">
@@ -459,34 +497,34 @@ const Footer = ({ setPage }: { setPage: (p: Page) => void }) => {
         </div>
         
         <div>
-          <h4 className="text-xs uppercase tracking-widest font-bold mb-6">Navigation</h4>
+          <h4 className="text-xs uppercase tracking-widest font-bold mb-6">{t('footer.navigation')}</h4>
           <ul className="space-y-3 text-sm text-luxury-brown/70">
-            <li className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('collections')}>Collections</li>
-            <li className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('brand')}>La Marque</li>
-            <li className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('register')}>Compte</li>
+            <li className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('collections')}>{t('nav.collections')}</li>
+            <li className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('brand')}>{t('nav.brand')}</li>
+            <li className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('register')}>{t('nav.account')}</li>
           </ul>
         </div>
 
         <div>
-          <h4 className="text-xs uppercase tracking-widest font-bold mb-6">Service Client</h4>
+          <h4 className="text-xs uppercase tracking-widest font-bold mb-6">{t('footer.customer_service')}</h4>
           <ul className="space-y-3 text-sm text-luxury-brown/70">
-            <li className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('deliveries-returns')}>Livraison & Retours</li>
-            <li className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('size-guide')}>Guide des Tailles</li>
-            <li className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('jewelry-care')}>Entretien des Bijoux</li>
-            <li className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('contact')}>Contact</li>
+            <li className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('deliveries-returns')}>{t('footer.deliveries_returns')}</li>
+            <li className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('size-guide')}>{t('footer.size_guide')}</li>
+            <li className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('jewelry-care')}>{t('footer.jewelry_care')}</li>
+            <li className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('contact')}>{t('nav.contact')}</li>
           </ul>
         </div>
 
         <div className="md:col-span-1">
-          <h4 className="text-xs uppercase tracking-widest font-bold mb-6">Newsletter</h4>
-          <p className="text-[11px] text-luxury-brown/60 mb-6 leading-relaxed uppercase tracking-wider">Restez informé de nos créations exclusives.</p>
+          <h4 className="text-xs uppercase tracking-widest font-bold mb-6">{t('footer.newsletter')}</h4>
+          <p className="text-[11px] text-luxury-brown/60 mb-6 leading-relaxed uppercase tracking-wider">{t('footer.newsletter_desc')}</p>
           <form onSubmit={handleNewsletterSubmit} className="relative group">
             <input 
               type="email" 
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder={status === 'success' ? 'Merci !' : 'votre@email.com'} 
+              placeholder={status === 'success' ? t('footer.placeholder_success') : t('footer.placeholder_email')} 
               className={`w-full bg-transparent border-b py-2 pr-10 outline-none transition-all text-sm placeholder:text-luxury-brown/20 italic font-serif ${
                 status === 'success' ? 'border-green-500/50' : status === 'error' ? 'border-red-500/50' : 'border-gold/20 focus:border-gold'
               }`}
@@ -500,14 +538,14 @@ const Footer = ({ setPage }: { setPage: (p: Page) => void }) => {
               {isSubmitting ? <Clock size={16} className="animate-spin" /> : <ArrowRight size={16} />}
             </button>
           </form>
-          {status === 'error' && <p className="text-[9px] text-red-500 mt-2 uppercase tracking-tighter">Une erreur est survenue.</p>}
+          {status === 'error' && <p className="text-[9px] text-red-500 mt-2 uppercase tracking-tighter">{t('footer.newsletter_error')}</p>}
         </div>
       </div>
       <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-gold/5 flex flex-col md:flex-row justify-between items-center text-[10px] uppercase tracking-[0.2em] text-luxury-brown/40">
-        <p>© 2026 Aurelion Maison de Bijoux. Tous droits réservés.</p>
+        <p>{t('footer.rights', { year: 2026 })}</p>
         <div className="flex space-x-6 mt-4 md:mt-0">
-          <span className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('legal')}>Mentions Légales</span>
-          <span className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('privacy')}>Confidentialité</span>
+          <span className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('legal')}>{t('footer.legal')}</span>
+          <span className="hover:text-gold cursor-pointer transition-colors" onClick={() => setPage('privacy')}>{t('footer.privacy')}</span>
         </div>
       </div>
     </footer>
@@ -523,8 +561,10 @@ const HomePage = ({ setPage, onProductClick, onAddToCart, onToggleWishlist, wish
   onToggleWishlist: (p: Product) => void,
   wishlist: Product[],
   user: { firstName: string } | null
-}) => (
-  <div className="flex flex-col w-full">
+}) => {
+  const { t } = useTranslation();
+  return (
+    <div className="flex flex-col w-full">
     {/* Welcome Banner for Logged In Users */}
     {user && (
       <motion.div 
@@ -533,7 +573,7 @@ const HomePage = ({ setPage, onProductClick, onAddToCart, onToggleWishlist, wish
         className="bg-gold/5 border-b border-gold/10 py-3 px-6 text-center"
       >
         <p className="text-[9px] uppercase tracking-[0.3em] text-gold font-bold">
-          Ravi de vous revoir, <span className="italic">{user.firstName}</span>. Votre collection vous attend.
+          {t('home.welcome_back', { name: user.firstName })}
         </p>
       </motion.div>
     )}
@@ -577,7 +617,7 @@ const HomePage = ({ setPage, onProductClick, onAddToCart, onToggleWishlist, wish
           transition={{ delay: 0.5 }}
           className="text-xs uppercase tracking-[0.5em] text-white/80 mb-6"
         >
-          Maison de Haute Joaillerie
+          {t('home.hero_subtitle')}
         </motion.span>
         <motion.h1 
           initial={{ y: 30, opacity: 0 }}
@@ -585,7 +625,7 @@ const HomePage = ({ setPage, onProductClick, onAddToCart, onToggleWishlist, wish
           transition={{ delay: 0.8 }}
           className="text-2xl md:text-4xl text-white font-serif mb-8 leading-tight"
         >
-          Là où le corps devient <br /> <span className="italic text-gold-light text-xl md:text-3xl">œuvre d'art</span>
+          {t('home.hero_title_1')} <br /> <span className="italic text-gold-light text-xl md:text-3xl">{t('home.hero_title_2')}</span>
         </motion.h1>
         <motion.button 
           initial={{ opacity: 0 }}
@@ -594,7 +634,7 @@ const HomePage = ({ setPage, onProductClick, onAddToCart, onToggleWishlist, wish
           onClick={() => setPage('collections')}
           className="group relative px-10 py-4 border-2 border-gold text-white uppercase text-[10px] tracking-[0.3em] overflow-hidden transition-all hover:border-gold-light gold-glow"
         >
-          <span className="relative z-10">Découvrir les Collections</span>
+          <span className="relative z-10">{t('home.view_collections')}</span>
           <div className="absolute inset-0 bg-gold translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
         </motion.button>
       </div>
@@ -620,9 +660,9 @@ const HomePage = ({ setPage, onProductClick, onAddToCart, onToggleWishlist, wish
            whileInView={{ opacity: 1, y: 0 }}
            viewport={{ once: true }}
         >
-          <h2 className="text-5xl font-serif mb-6">Collections Phares</h2>
+          <h2 className="text-5xl font-serif mb-6">{t('home.featured_collections')}</h2>
           <div className="w-24 h-[1px] bg-gold mx-auto mb-6" />
-          <p className="text-luxury-brown/50 uppercase tracking-[0.3em] text-xs">L'essence de la joaillerie contemporaine</p>
+          <p className="text-luxury-brown/50 uppercase tracking-[0.3em] text-xs">{t('home.featured_subtitle')}</p>
         </motion.div>
       </div>
 
@@ -671,7 +711,11 @@ const HomePage = ({ setPage, onProductClick, onAddToCart, onToggleWishlist, wish
                   </button>
                 </div>
               </div>
-              <h3 className="text-2xl font-serif mb-2 group-hover:text-gold transition-colors">{item.name}</h3>
+              <h3 className="text-2xl font-serif mb-2 group-hover:text-gold transition-colors">
+                {t(`footer.products.${item.id}.name`) !== `footer.products.${item.id}.name` 
+                  ? t(`footer.products.${item.id}.name`) 
+                  : item.name}
+              </h3>
               <p className="text-[10px] uppercase tracking-widest text-gold font-bold italic">{item.price}</p>
             </motion.div>
           );
@@ -683,10 +727,11 @@ const HomePage = ({ setPage, onProductClick, onAddToCart, onToggleWishlist, wish
           onClick={() => setPage('collections')}
           className="px-12 py-5 border border-gold text-gold uppercase text-[10px] tracking-[0.4em] font-bold hover:bg-gold hover:text-white transition-all gold-glow"
         >
-          Explorer le Catalogue
+          {t('home.explore_catalogue')}
         </button>
       </div>
     </section>
+
 
     {/* Brand Statement Section */}
     <section className="bg-beige py-32 px-6 md:px-12 border-y border-gold/10 overflow-hidden relative">
@@ -699,25 +744,25 @@ const HomePage = ({ setPage, onProductClick, onAddToCart, onToggleWishlist, wish
            className="md:w-1/2 space-y-10"
         >
           <div className="space-y-4">
-            <span className="text-gold font-bold uppercase tracking-[0.3em] text-[10px]">La Vision Auréolienne</span>
-            <h2 className="text-4xl md:text-6xl font-serif leading-tight">Le Savoir-Faire <br /> Transcendant</h2>
+            <span className="text-gold font-bold uppercase tracking-[0.3em] text-[10px]">{t('home.vision_label')}</span>
+            <h2 className="text-4xl md:text-6xl font-serif leading-tight">{t('home.vision_title_1')} <br /> {t('home.vision_title_2')}</h2>
           </div>
           <p className="text-luxury-brown/70 leading-relaxed text-lg font-serif italic">
-            "Chaque création est une odyssée artisanale, où l'or est sculpté pour capturer l'éternité. Nous ne créons pas seulement des bijoux, nous forgeons des talismans pour l'âme moderne."
+            {t('home.vision_quote')}
           </p>
           <div className="flex flex-col sm:flex-row gap-6">
             <button 
                onClick={() => setPage('brand')} 
                className="flex items-center space-x-4 text-gold group py-2"
             >
-              <span className="uppercase tracking-[0.3em] text-[10px] font-bold">L'histoire de la Maison</span>
+              <span className="uppercase tracking-[0.3em] text-[10px] font-bold">{t('common.brand_story')}</span>
               <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
             </button>
             <button 
                onClick={() => setPage('contact')} 
                className="flex items-center space-x-4 text-gold group py-2"
             >
-              <span className="uppercase tracking-[0.3em] text-[10px] font-bold">Visiter l'Atelier</span>
+              <span className="uppercase tracking-[0.3em] text-[10px] font-bold">{t('common.visit_workshop')}</span>
               <MapPin size={16} className="group-hover:scale-110 transition-transform" />
             </button>
           </div>
@@ -737,24 +782,26 @@ const HomePage = ({ setPage, onProductClick, onAddToCart, onToggleWishlist, wish
           </div>
           <div className="absolute -bottom-10 -left-10 bg-luxury-brown p-10 text-white hidden xl:block shadow-2xl z-20">
             <Sparkles className="text-gold mb-4 w-8 h-8" />
-            <p className="font-serif italic text-2xl max-w-[200px]">"Le bijou est la ponctuation de l'élégance."</p>
+            <p className="font-serif italic text-2xl max-w-[200px]">{t('home.atelier_note')}</p>
           </div>
         </motion.div>
       </div>
     </section>
   </div>
-);
+  );
+};
 
 
 const BrandPage = ({ onBack }: { onBack: () => void }) => {
+  const { t, language, setLanguage } = useTranslation();
   const [selectedMilestone, setSelectedMilestone] = useState<null | number>(null);
 
   const timelinePoints = [
     { 
       year: '2012', 
       image: "https://images.unsplash.com/photo-1531938716357-224c16b5ace3?auto=format&fit=crop&q=80&w=800",
-      event: "Naissance du Brutalisme Précieux. Elise Aurelion fonde la Maison dans un atelier secret du Marais.",
-      details: "Après des années d'études en architecture, Elise Aurelion décide de transposer les principes du brutalisme — l'honnêteté des matériaux, la force des structures — à l'échelle du bijou. Dans son premier atelier du Marais, elle sculpte des pièces massives, refusant les ornementations superflues pour célébrer la rudesse noble du métal précieux.",
+      event: t('brand.timeline.p1_event'),
+      details: t('brand.timeline.p1_details'),
       gallery: [
         "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=600",
         "https://images.unsplash.com/photo-1573408339305-6497fba30501?auto=format&fit=crop&q=80&w=600"
@@ -763,8 +810,8 @@ const BrandPage = ({ onBack }: { onBack: () => void }) => {
     { 
       year: '2015', 
       image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=800",
-      event: "L'Héritage d'Exception. Présentation de 'Lignes de Vie' à la Fashion Week de Milan.",
-      details: "Marquant l'entrée de la Maison sur la scène internationale, la collection 'Lignes de Vie' stupéfie par son utilisation audacieuse de l'or brossé et ses textures rappelant l'écorce terrestre. Milan devient le témoin d'une nouvelle ère où le bijou n'est plus un accessoire, mais une extension sculpturale de l'identité.",
+      event: t('brand.timeline.p2_event'),
+      details: t('brand.timeline.p2_details'),
       gallery: [
         "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&q=80&w=600",
         "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&q=80&w=600"
@@ -773,8 +820,8 @@ const BrandPage = ({ onBack }: { onBack: () => void }) => {
     { 
       year: '2019', 
       image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200",
-      event: "L'Atelier-Vaisseau. Inauguration d'un espace de création manifeste à Paris.",
-      details: "Conçu comme une œuvre d'art totale, l'Atelier-Vaisseau est le cœur battant de la Maison. C'est ici que fusionnent les technologies de pointe et les gestes ancestraux. Les imprimantes 3D haute résolution côtoient les enclumes séculaires, permettant une liberté de forme jusqu'alors jugée impossible.",
+      event: t('brand.timeline.p3_event'),
+      details: t('brand.timeline.p3_details'),
       gallery: [
         "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=600",
         "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=600"
@@ -783,8 +830,8 @@ const BrandPage = ({ onBack }: { onBack: () => void }) => {
     { 
       year: '2024', 
       image: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&q=80&w=800",
-      event: "Résonance Mondiale. Ouverture des galeries à Tokyo et New York.",
-      details: "L'art d'Aurelion traverse les océans. Les ouvertures simultanées à Tokyo et New York marquent la consécration du 'Brutalisme Précieux' comme un langage universel. Chaque galerie est pensée pour refléter l'âme de la Maison tout en s'imprégnant de la culture locale, créant un dialogue global entre matière et environnement.",
+      event: t('brand.timeline.p4_event'),
+      details: t('brand.timeline.p4_details'),
       gallery: [
         "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&q=80&w=600",
         "https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&q=80&w=600"
@@ -793,9 +840,9 @@ const BrandPage = ({ onBack }: { onBack: () => void }) => {
   ];
 
   const craftSteps = [
-    { title: "L'Épure", desc: "Tout commence par un trait architectural, une recherche d'équilibre entre le plein et le vide." },
-    { title: "La Forge", desc: "Le métal est dompté par la flamme, sculpté avec une intensité qui confère à chaque pièce son caractère unique." },
-    { title: "L'Âme", desc: "Le sertissage des pierres et le polissage final révèlent la lumière intérieure de l'œuvre." }
+    { title: t('brand.craft_steps.step_1_title'), desc: t('brand.craft_steps.step_1_desc') },
+    { title: t('brand.craft_steps.step_2_title'), desc: t('brand.craft_steps.step_2_desc') },
+    { title: t('brand.craft_steps.step_3_title'), desc: t('brand.craft_steps.step_3_desc') }
   ];
 
   return (
@@ -818,14 +865,14 @@ const BrandPage = ({ onBack }: { onBack: () => void }) => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                <span className="text-xs uppercase tracking-[0.4em] text-gold font-bold mb-6 block">Notre Héritage</span>
-                <h2 className="text-5xl md:text-7xl font-serif mb-10 leading-tight">L'Odyssée <br /><span className="italic text-luxury-brown/40">du Métal</span></h2>
+                <span className="text-xs uppercase tracking-[0.4em] text-gold font-bold mb-6 block">{t('brand.timeline_subtitle')}</span>
+                <h2 className="text-5xl md:text-7xl font-serif mb-10 leading-tight">{t('brand.timeline_title').split(' du ')[0]} <br /><span className="italic text-luxury-brown/40">{t('brand.timeline_title').split(' du ')[1] || 'du Métal'}</span></h2>
                 <div className="space-y-8 text-luxury-brown/80 leading-relaxed font-serif text-lg italic">
                   <p>
-                    Tout a commencé dans un appartement discret du Marais, à Paris, en 2012. Là où d'autres voyaient des bijoux comme de simples ornements, nous y voyions des manifestes. La Maison Aurelion est née de l'envie de briser les codes de la joaillerie traditionnelle, trop souvent figée dans le temps.
+                    {t('brand.timeline_desc_1')}
                   </p>
                   <p>
-                    Au fil des années, Aurelion a évolué pour devenir un phare de l'innovation. En fusionnant les techniques de fonte à la cire perdue du XVIIIe siècle avec la modélisation architecturale 3D, nous avons créé un langage visuel unique : le "Brutalisme Précieux". Chaque pièce raconte le passage du temps et la permanence de l'esprit.
+                    {t('brand.timeline_desc_2')}
                   </p>
                 </div>
               </motion.div>
@@ -845,8 +892,8 @@ const BrandPage = ({ onBack }: { onBack: () => void }) => {
                   />
                 </div>
                 <div className="absolute -bottom-12 -right-12 bg-luxury-brown p-10 text-white hidden md:block gold-glow z-20 max-w-xs">
-                  <p className="text-4xl font-serif mb-2 italic">12 Ans</p>
-                  <p className="text-[10px] uppercase tracking-widest text-gold">De recherche sur la lumière et la forme</p>
+                  <p className="text-4xl font-serif mb-2 italic">{t('brand.timeline_label')}</p>
+                  <p className="text-[10px] uppercase tracking-widest text-gold">{t('brand.timeline_sublabel')}</p>
                 </div>
               </motion.div>
             </div>
@@ -854,9 +901,9 @@ const BrandPage = ({ onBack }: { onBack: () => void }) => {
             {/* Timeline Section */}
             <div className="mb-48 relative px-4">
               <div className="flex flex-col items-center mb-24">
-                <span className="text-[10px] uppercase tracking-[0.5em] text-gold font-bold mb-4">Chronologie</span>
-                <h3 className="text-4xl font-serif italic text-luxury-brown">Les Étapes du Temps</h3>
-                <p className="text-gold text-[10px] uppercase tracking-widest mt-4 opacity-70">Cliquer sur une étape pour explorer</p>
+                <span className="text-[10px] uppercase tracking-[0.5em] text-gold font-bold mb-4">{t('brand.chronology_subtitle')}</span>
+                <h3 className="text-4xl font-serif italic text-luxury-brown">{t('brand.chronology_title')}</h3>
+                <p className="text-gold text-[10px] uppercase tracking-widest mt-4 opacity-70">{t('brand.chronology_hint')}</p>
               </div>
               <div className="relative">
                 <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-gold/20" />
@@ -917,24 +964,24 @@ const BrandPage = ({ onBack }: { onBack: () => void }) => {
             {/* Values Section */}
             <div className="mb-48 py-24 border-y border-gold/10">
               <div className="text-center mb-24">
-                <h3 className="text-4xl font-serif italic mb-4">Nos Piliers</h3>
+                <h3 className="text-4xl font-serif italic mb-4">{t('brand.pillars_title')}</h3>
                 <div className="w-24 h-px bg-gold mx-auto" />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-16 px-4">
                 {[
                   {
-                    title: "Excellence Artisanale",
-                    desc: "Nous ne tolérons aucune approximation. Chaque serti, chaque polissage est réalisé à la main dans nos ateliers parisiens par des maîtres joailliers dédiés.",
+                    title: t('brand.pillar_1_title'),
+                    desc: t('brand.pillar_1_desc'),
                     icon: <Sparkles size={32} />
                   },
                   {
-                    title: "Éthique Radicale",
-                    desc: "100% de notre or est recyclé. Nos pierres sont sourcées via des canaux certifiés garantissant des conditions de travail dignes et un impact environnemental réduit.",
+                    title: t('brand.pillar_2_title'),
+                    desc: t('brand.pillar_2_desc'),
                     icon: <Building size={32} />
                   },
                   {
-                    title: "Innovation Formelle",
-                    desc: "Nous explorons les limites du portable. Nos bijoux sont conçus pour être des extensions organiques du corps, défiant la gravité et les conventions.",
+                    title: t('brand.pillar_3_title'),
+                    desc: t('brand.pillar_3_desc'),
                     icon: <ArrowRight size={32} />
                   }
                 ].map((value, i) => (
@@ -974,14 +1021,14 @@ const BrandPage = ({ onBack }: { onBack: () => void }) => {
                 />
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                   <div className="text-center text-white p-8">
-                    <span className="text-[10px] uppercase tracking-[0.5em] text-gold font-bold mb-4 block">L'Atelier</span>
-                    <h3 className="text-4xl md:text-6xl font-serif italic drop-shadow-lg">Là où la matière devient poésie</h3>
+                    <span className="text-[10px] uppercase tracking-[0.5em] text-gold font-bold mb-4 block">{t('brand.workshop_label')}</span>
+                    <h3 className="text-4xl md:text-6xl font-serif italic drop-shadow-lg">{t('brand.workshop_title')}</h3>
                   </div>
                 </div>
               </motion.div>
               <div className="mt-12 text-center max-w-2xl mx-auto">
                 <p className="text-luxury-brown/60 font-serif italic leading-relaxed">
-                  Travailler à l'établi requiert une patience infinie. Dans notre atelier du 3ème arrondissement, le silence n'est rompu que par le chant des limes et le souffle du chalumeau. C'est ici que l'âme de la Maison prend vie.
+                  {t('brand.workshop_desc')}
                 </p>
               </div>
             </div>
@@ -1060,7 +1107,7 @@ const BrandPage = ({ onBack }: { onBack: () => void }) => {
                 viewport={{ once: true }}
                 className="order-1 lg:order-2 space-y-10"
               >
-                <span className="text-xs uppercase tracking-[0.4em] text-gold font-bold block">La Visionnaire</span>
+                <span className="text-xs uppercase tracking-[0.4em] text-gold font-bold block">{t('brand.history_title')}</span>
                 <h2 className="text-5xl font-serif italic mb-8">Elise Aurelion</h2>
                 <div className="space-y-6 text-luxury-brown/80 leading-relaxed font-serif text-lg italic">
                   <p>
@@ -1183,12 +1230,13 @@ const CollectionsPage = ({ onProductClick, onAddToCart, onToggleWishlist, wishli
   wishlist: Product[],
   onBack: () => void 
 }) => {
+  const { t } = useTranslation();
   return (
     <div className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
       <BackButton onClick={onBack} />
       <div className="text-center mb-20">
-        <h2 className="text-5xl font-serif mb-4">Les Collections</h2>
-        <p className="text-luxury-brown/50 uppercase tracking-widest text-[10px]">Explorer l'univers Aurelion</p>
+        <h2 className="text-5xl font-serif mb-4">{t('collections.title')}</h2>
+        <p className="text-luxury-brown/50 uppercase tracking-widest text-[10px]">{t('collections.subtitle')}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -1207,7 +1255,9 @@ const CollectionsPage = ({ onProductClick, onAddToCart, onToggleWishlist, wishli
               <div className="aspect-[4/5] overflow-hidden mb-6 relative gold-border group-hover:border-gold transition-all duration-500">
                 <img 
                   src={item.image} 
-                  alt={item.name} 
+                  alt={t(`footer.products.${item.id}.name`) !== `footer.products.${item.id}.name` 
+                    ? t(`footer.products.${item.id}.name`) 
+                    : item.name} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   referrerPolicy="no-referrer"
                 />
@@ -1235,7 +1285,11 @@ const CollectionsPage = ({ onProductClick, onAddToCart, onToggleWishlist, wishli
                 </div>
               </div>
               <div>
-                <h3 className="text-lg font-serif mb-1 group-hover:text-gold transition-colors">{item.name}</h3>
+                <h3 className="text-lg font-serif mb-1 group-hover:text-gold transition-colors">
+                  {t(`footer.products.${item.id}.name`) !== `footer.products.${item.id}.name` 
+                    ? t(`footer.products.${item.id}.name`) 
+                    : item.name}
+                </h3>
                 <p className="text-[10px] uppercase tracking-widest text-gold font-bold">{item.price}</p>
               </div>
             </motion.div>
@@ -1253,6 +1307,7 @@ const SignaturePage = ({ onProductClick, onAddToCart, onToggleWishlist, wishlist
   wishlist: Product[],
   onBack: () => void 
 }) => {
+  const { t } = useTranslation();
   const isLiked = wishlist.some(w => w.id === FEATURED_PRODUCT.id);
   return (
     <div className="pt-20">
@@ -1276,31 +1331,31 @@ const SignaturePage = ({ onProductClick, onAddToCart, onToggleWishlist, wishlist
           transition={{ duration: 0.8 }}
           className="pt-40"
         >
-          <span className="text-xs uppercase tracking-[0.3em] text-gold font-bold mb-4 block">Pièce Signature</span>
-          <h2 className="text-5xl md:text-7xl font-serif mb-8 leading-tight text-gold-gradient">L'Auréole <br /> <span className="italic">d'Éternité</span></h2>
+          <span className="text-xs uppercase tracking-[0.3em] text-gold font-bold mb-4 block">{t('signature.label')}</span>
+          <h2 className="text-5xl md:text-7xl font-serif mb-8 leading-tight text-gold-gradient">{t('signature.title_1')} <br /> <span className="italic">{t('signature.title_2')}</span></h2>
           <p className="text-luxury-brown/70 leading-relaxed mb-8 max-w-md">
-            Une prouesse technique et artistique. Façonnée dans un or 24 carats recyclé, cette manchette sculpturale semble flotter autour du poignet, capturant la lumière sous chaque angle.
+            {t('signature.description')}
           </p>
           <div className="flex flex-wrap items-center gap-6">
             <button 
               onClick={() => onProductClick(SIGNATURE_PRODUCT)}
               className="px-8 py-4 border border-gold text-gold text-[10px] uppercase tracking-widest hover:bg-gold hover:text-white transition-all"
             >
-              Découvrir son histoire
+              {t('common.learn_more')}
             </button>
             <button 
               onClick={() => onAddToCart(SIGNATURE_PRODUCT)}
               className="gold-gradient text-white px-8 py-4 text-[10px] uppercase tracking-widest hover:opacity-90 transition-opacity gold-glow flex items-center space-x-2"
             >
               <ShoppingBag size={14} />
-              <span>Ajouter au panier</span>
+              <span>{t('common.add_to_cart')}</span>
             </button>
             <button 
               onClick={() => onToggleWishlist(SIGNATURE_PRODUCT)}
               className={`px-8 py-4 border ${wishlist.some(w => w.id === SIGNATURE_PRODUCT.id) ? 'bg-gold border-gold text-white' : 'border-gold text-gold'} uppercase text-[10px] tracking-widest hover:bg-gold hover:text-white transition-all flex items-center space-x-2`}
             >
               <Heart size={14} fill={wishlist.some(w => w.id === SIGNATURE_PRODUCT.id) ? "currentColor" : "none"} />
-              <span>{wishlist.some(w => w.id === SIGNATURE_PRODUCT.id) ? 'Favori' : 'Aimer'}</span>
+              <span>{wishlist.some(w => w.id === SIGNATURE_PRODUCT.id) ? t('common.favorite') : t('common.like')}</span>
             </button>
             <span className="text-gold font-serif text-2xl">{SIGNATURE_PRODUCT.price}</span>
           </div>
@@ -1329,6 +1384,7 @@ const SignaturePage = ({ onProductClick, onAddToCart, onToggleWishlist, wishlist
   );
 };
 const ContactPage = ({ onBack }: { onBack: () => void }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -1380,9 +1436,9 @@ const ContactPage = ({ onBack }: { onBack: () => void }) => {
       <BackButton onClick={onBack} />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
         <div>
-          <h2 className="text-5xl font-serif mb-8">Nous Contacter</h2>
+          <h2 className="text-5xl font-serif mb-8">{t('contact.title')}</h2>
           <p className="text-luxury-brown/70 leading-relaxed mb-12">
-            Pour toute demande de personnalisation, de rendez-vous privé ou d'information complémentaire, notre équipe dédiée est à votre entière disposition.
+            {t('contact.subtitle')}
           </p>
           
           <div className="space-y-8">
@@ -1396,25 +1452,25 @@ const ContactPage = ({ onBack }: { onBack: () => void }) => {
                 <MapPin size={20} />
               </a>
               <div>
-                <h4 className="text-xs uppercase tracking-widest font-bold mb-1">Boutique Signature</h4>
+                <h4 className="text-xs uppercase tracking-widest font-bold mb-1">{t('contact.form.office')}</h4>
                 <a 
                   href="https://www.google.com/maps/search/?api=1&query=24+Place+Vendôme+75001+Paris+France" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-sm text-luxury-brown/60 hover:text-gold transition-colors"
                 >
-                  24 Place Vendôme, 75001 Paris, France
+                  {t('contact.info.address')}
                 </a>
               </div>
             </div>
 
             <div className="flex items-start space-x-6">
-              <a href="tel:+33145678900" className="w-12 h-12 rounded-full border border-gold/20 flex items-center justify-center text-gold hover:bg-gold/10 transition-colors">
+              <a href={`tel:${t('contact.info.phone').replace(/\s/g, '')}`} className="w-12 h-12 rounded-full border border-gold/20 flex items-center justify-center text-gold hover:bg-gold/10 transition-colors">
                 <Phone size={20} />
               </a>
               <div>
-                <h4 className="text-xs uppercase tracking-widest font-bold mb-1">Téléphone</h4>
-                <a href="tel:+33145678900" className="text-sm text-luxury-brown/60 hover:text-gold transition-colors">+33 (0)1 45 67 89 00</a>
+                <h4 className="text-xs uppercase tracking-widest font-bold mb-1">{t('contact.form.subject')}</h4>
+                <a href={`tel:${t('contact.info.phone').replace(/\s/g, '')}`} className="text-sm text-luxury-brown/60 hover:text-gold transition-colors">{t('contact.info.phone')}</a>
               </div>
             </div>
 
@@ -1448,8 +1504,8 @@ const ContactPage = ({ onBack }: { onBack: () => void }) => {
           <div className="absolute bottom-0 left-0 w-32 h-32 bg-gold/5 rounded-full -ml-16 -mb-16 blur-3xl"></div>
           
           <div className="relative z-10">
-            <h3 className="text-2xl font-serif mb-2">Conciergerie Aurelion</h3>
-            <p className="text-[10px] text-gold font-medium uppercase tracking-[0.2em] mb-10 pb-4 border-b border-gold/10 inline-block">Service de rendez-vous privilégié</p>
+            <h3 className="text-2xl font-serif mb-2">{t('contact.form.note').split(' ')[0]} {t('contact.form.note').split(' ')[1]}</h3>
+            <p className="text-[10px] text-gold font-medium uppercase tracking-[0.2em] mb-10 pb-4 border-b border-gold/10 inline-block">{t('contact.form.note')}</p>
             
             {submitted ? (
               <motion.div 
@@ -1460,20 +1516,20 @@ const ContactPage = ({ onBack }: { onBack: () => void }) => {
                 <div className="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center text-gold mx-auto mb-6">
                   <Sparkles size={32} />
                 </div>
-                <h4 className="text-xl font-serif">Demande transmise</h4>
-                <p className="text-sm text-luxury-brown/60">Votre client mail a été ouvert pour finaliser l'envoi. <br /> Nous reviendrons vers vous dans les plus brefs délais.</p>
+                <h4 className="text-xl font-serif">{t('contact.form.success')}</h4>
+                <p className="text-sm text-luxury-brown/60">{t('contact.form.success_desc')}</p>
                 <button 
                   onClick={() => setSubmitted(false)}
                   className="text-[10px] uppercase tracking-widest font-bold text-gold hover:opacity-70 transition-opacity pt-8"
                 >
-                  Envoyer un autre message
+                  {t('contact.form.send_another')}
                 </button>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">Prénom</label>
+                    <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">{t('contact.form.first_name')}</label>
                     <input 
                       type="text" 
                       name="firstName"
@@ -1485,7 +1541,7 @@ const ContactPage = ({ onBack }: { onBack: () => void }) => {
                     />
                   </div>
                   <div className="space-y-3">
-                    <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">Nom</label>
+                    <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">{t('contact.form.last_name')}</label>
                     <input 
                       type="text" 
                       name="lastName"
@@ -1499,7 +1555,7 @@ const ContactPage = ({ onBack }: { onBack: () => void }) => {
                 </div>
                 
                 <div className="space-y-3">
-                  <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">Email de contact</label>
+                  <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">{t('contact.form.email_label')}</label>
                   <input 
                     type="email" 
                     name="email"
@@ -1512,7 +1568,7 @@ const ContactPage = ({ onBack }: { onBack: () => void }) => {
                 </div>
                 
                 <div className="space-y-3">
-                  <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">Nature de la demande</label>
+                  <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">{t('contact.form.nature_label')}</label>
                   <div className="relative">
                     <select 
                       name="subject"
@@ -1520,24 +1576,24 @@ const ContactPage = ({ onBack }: { onBack: () => void }) => {
                       onChange={handleChange}
                       className="w-full bg-transparent border-b border-gold/20 py-2 outline-none focus:border-gold transition-all appearance-none cursor-pointer"
                     >
-                      <option value="Rendez-vous à la boutique Paris">Rendez-vous à la boutique Paris</option>
-                      <option value="Conseil en joaillerie personnalisée">Conseil en joaillerie personnalisée</option>
-                      <option value="Entretien d'une pièce d'exception">Entretien d'une pièce d'exception</option>
-                      <option value="Autre demande prestigieuse">Autre demande prestigieuse</option>
+                      <option value={t('contact.form.subject_1')}>{t('contact.form.subject_1')}</option>
+                      <option value={t('contact.form.subject_2')}>{t('contact.form.subject_2')}</option>
+                      <option value={t('contact.form.subject_3')}>{t('contact.form.subject_3')}</option>
+                      <option value={t('contact.form.subject_4')}>{t('contact.form.subject_4')}</option>
                     </select>
                     <ChevronRight size={14} className="absolute right-0 top-3 rotate-90 text-gold pointer-events-none" />
                   </div>
                 </div>
                 
                 <div className="space-y-3">
-                  <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">Votre message</label>
+                  <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">{t('contact.form.message_label')}</label>
                   <textarea 
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
                     required
                     rows={3} 
-                    placeholder="Comment pouvons-nous vous accompagner ?"
+                    placeholder={t('contact.form.message_placeholder')}
                     className="w-full bg-transparent border-b border-gold/20 py-2 outline-none focus:border-gold transition-all resize-none placeholder:text-luxury-brown/20" 
                   />
                 </div>
@@ -1546,7 +1602,7 @@ const ContactPage = ({ onBack }: { onBack: () => void }) => {
                   type="submit"
                   className="w-full py-5 gold-gradient text-white uppercase text-[10px] tracking-[0.4em] font-bold gold-glow hover:translate-y-[-2px] hover:shadow-xl transition-all active:translate-y-[0px]"
                 >
-                  Solliciter un rendez-vous
+                  {t('contact.form.send')}
                 </button>
               </form>
             )}
@@ -1725,7 +1781,7 @@ const DeliveriesReturnsPage = ({ onBack }: { onBack: () => void }) => {
 };
 
 // --- Size Guide Page Component ---
-const SizeGuidePage = ({ onBack }: { onBack: () => void }) => {
+const SizeGuidePage = ({ onBack, setPage }: { onBack: () => void, setPage: (p: Page) => void }) => {
   return (
     <div className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
       <BackButton onClick={onBack} />
@@ -1851,7 +1907,10 @@ const SizeGuidePage = ({ onBack }: { onBack: () => void }) => {
             Recevez notre baguier physique par courrier sous 3 jours pour une mesure d'une précision absolue.
           </p>
         </div>
-        <button className="px-10 py-4 bg-gold text-white uppercase text-[10px] tracking-widest hover:bg-luxury-brown transition-colors">
+        <button 
+          onClick={() => setPage('ring-sizer-request')}
+          className="px-10 py-4 bg-gold text-white uppercase text-[10px] tracking-widest hover:bg-luxury-brown transition-colors"
+        >
           Demander mon baguier
         </button>
       </div>
@@ -1859,8 +1918,143 @@ const SizeGuidePage = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
+// --- Ring Sizer Request Page ---
+const RingSizerRequestPage = ({ onBack }: { onBack: () => void }) => {
+  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    address: '',
+    city: '',
+    zipCode: '',
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
+
+  if (submitted) {
+    return (
+      <div className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[60vh] text-center">
+        <motion.div
+           initial={{ scale: 0.9, opacity: 0 }}
+           animate={{ scale: 1, opacity: 1 }}
+           className="w-24 h-24 bg-gold/10 rounded-full flex items-center justify-center text-gold mb-8"
+        >
+          <Clock size={40} />
+        </motion.div>
+        <h2 className="text-4xl font-serif italic mb-6">Demande enregistrée</h2>
+        <p className="text-luxury-brown/70 max-w-md mx-auto mb-12 italic">
+          "Votre baguier Aurelion est en cours de préparation. Il vous sera expédié sous 48 heures."
+        </p>
+        <button 
+          onClick={onBack}
+          className="px-12 py-4 border border-gold text-gold uppercase text-[10px] tracking-widest font-bold hover:bg-gold hover:text-white transition-all"
+        >
+          Retour
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+      <BackButton onClick={onBack} />
+      
+      <div className="max-w-2xl mx-auto">
+        <div className="text-center mb-16">
+          <h1 className="text-4xl font-serif mb-6 italic uppercase tracking-widest">Demander un baguier</h1>
+          <div className="w-24 h-px bg-gold mx-auto mb-8" />
+          <p className="text-luxury-brown/70 leading-relaxed font-serif italic">
+            Complétez vos coordonnées pour recevoir gratuitement votre baguier physique Aurelion.
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-8 bg-white p-12 shadow-2xl border border-gold/5">
+          <div className="grid grid-cols-2 gap-8">
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">Prénom</label>
+              <input 
+                type="text" 
+                required
+                value={formData.firstName}
+                onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                className="w-full bg-transparent border-b border-gold/20 py-2 outline-none focus:border-gold transition-all" 
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">Nom</label>
+              <input 
+                type="text" 
+                required
+                value={formData.lastName}
+                onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                className="w-full bg-transparent border-b border-gold/20 py-2 outline-none focus:border-gold transition-all" 
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">Email</label>
+            <input 
+              type="email" 
+              required
+              value={formData.email}
+              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              className="w-full bg-transparent border-b border-gold/20 py-2 outline-none focus:border-gold transition-all" 
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">Adresse postale</label>
+            <input 
+              type="text" 
+              required
+              value={formData.address}
+              onChange={(e) => setFormData({...formData, address: e.target.value})}
+              className="w-full bg-transparent border-b border-gold/20 py-2 outline-none focus:border-gold transition-all" 
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-8">
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">Ville</label>
+              <input 
+                type="text" 
+                required
+                value={formData.city}
+                onChange={(e) => setFormData({...formData, city: e.target.value})}
+                className="w-full bg-transparent border-b border-gold/20 py-2 outline-none focus:border-gold transition-all" 
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">Code Postal</label>
+              <input 
+                type="text" 
+                required
+                value={formData.zipCode}
+                onChange={(e) => setFormData({...formData, zipCode: e.target.value})}
+                className="w-full bg-transparent border-b border-gold/20 py-2 outline-none focus:border-gold transition-all" 
+              />
+            </div>
+          </div>
+
+          <button 
+            type="submit"
+            className="w-full py-5 bg-gold text-white uppercase text-[10px] tracking-[0.4em] font-bold gold-glow hover:translate-y-[-2px] transition-all"
+          >
+            Valider la demande
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 // --- Jewelry Care Page Component ---
-const JewelryCarePage = ({ onBack }: { onBack: () => void }) => {
+const JewelryCarePage = ({ onBack, setPage }: { onBack: () => void, setPage: (p: Page) => void }) => {
   return (
     <div className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
       <BackButton onClick={onBack} />
@@ -1930,7 +2124,7 @@ const JewelryCarePage = ({ onBack }: { onBack: () => void }) => {
           <h2 className="text-3xl font-serif italic">Rituels de Préservation</h2>
           <div className="space-y-6 text-luxury-brown/80 leading-relaxed font-serif text-lg italic">
             <p>
-              "Un bijou Aurelion est un héritage. Son entretien régulier garantit que son histoire sera racontée avec le même éclat par les générations à venir."
+              "Un bijou Aurelion est un héritage. Son entretien régulier garantit que son histoire sera racontée with le même éclat par les générations à venir."
             </p>
           </div>
           <ul className="space-y-4 text-luxury-brown/70">
@@ -1954,7 +2148,10 @@ const JewelryCarePage = ({ onBack }: { onBack: () => void }) => {
             <p className="text-sm opacity-70 leading-relaxed">
               Nous offrons un service gracieux de nettoyage aux ultrasons et de vérification des sertissages pour toutes nos créations, à vie.
             </p>
-            <button className="w-full py-4 border border-beige/30 text-beige uppercase text-[10px] tracking-widest hover:bg-beige hover:text-luxury-brown transition-all">
+            <button 
+              onClick={() => setPage('care-appointment')}
+              className="w-full py-4 border border-beige/30 text-beige uppercase text-[10px] tracking-widest hover:bg-beige hover:text-luxury-brown transition-all"
+            >
               Prendre rendez-vous
             </button>
           </div>
@@ -1964,8 +2161,125 @@ const JewelryCarePage = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
+// --- Care Appointment Page ---
+const CareAppointmentPage = ({ onBack }: { onBack: () => void }) => {
+  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    service: 'Nettoyage & Éclat',
+    message: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
+
+  if (submitted) {
+    return (
+      <div className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto flex flex-col items-center justify-center min-h-[60vh] text-center">
+        <motion.div
+           initial={{ scale: 0.9, opacity: 0 }}
+           animate={{ scale: 1, opacity: 1 }}
+           className="w-24 h-24 bg-gold/10 rounded-full flex items-center justify-center text-gold mb-8"
+        >
+          <Clock size={40} />
+        </motion.div>
+        <h2 className="text-4xl font-serif italic mb-6 text-luxury-brown">Rendez-vous sollicité</h2>
+        <p className="text-luxury-brown/70 max-w-md mx-auto mb-12 italic">
+          "Un conseiller Aurelion reviendra vers vous sous 24 heures pour confirmer votre visite en atelier."
+        </p>
+        <button 
+          onClick={onBack}
+          className="px-12 py-4 border border-gold text-gold uppercase text-[10px] tracking-widest font-bold hover:bg-gold hover:text-white transition-all"
+        >
+          Retour
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+      <BackButton onClick={onBack} />
+      
+      <div className="max-w-2xl mx-auto">
+        <div className="text-center mb-16">
+          <h1 className="text-4xl font-serif mb-6 italic uppercase tracking-widest">Atelier Expertise</h1>
+          <div className="w-24 h-px bg-gold mx-auto mb-8" />
+          <p className="text-luxury-brown/70 leading-relaxed font-serif italic">
+            Confiez vos pièces à la main de l'artisan. Choisissez votre service pour un rendez-vous personnalisé.
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-8 bg-white p-12 shadow-2xl border border-gold/5">
+          <div className="space-y-2 text-left">
+            <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">Nom Complet</label>
+            <input 
+              type="text" 
+              required
+              value={formData.name}
+              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              placeholder="Éléonore de Aurelion"
+              className="w-full bg-transparent border-b border-gold/20 py-2 outline-none focus:border-gold transition-all" 
+            />
+          </div>
+
+          <div className="space-y-2 text-left">
+            <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">Email</label>
+            <input 
+              type="email" 
+              required
+              value={formData.email}
+              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              placeholder="votre@prestige.com"
+              className="w-full bg-transparent border-b border-gold/20 py-2 outline-none focus:border-gold transition-all" 
+            />
+          </div>
+
+          <div className="space-y-2 text-left">
+            <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">Service Souhaité</label>
+            <select 
+              value={formData.service}
+              onChange={(e) => setFormData({...formData, service: e.target.value})}
+              className="w-full bg-transparent border-b border-gold/20 py-2 outline-none focus:border-gold transition-all italic text-sm text-luxury-brown"
+            >
+              <option>Nettoyage & Éclat</option>
+              <option>Vérification des Serti</option>
+              <option>Rhodiage Or Blanc</option>
+              <option>Polissage Professionnel</option>
+              <option>Ajustement de Taille</option>
+            </select>
+          </div>
+
+          <div className="space-y-2 text-left">
+            <label className="text-[10px] uppercase tracking-widest font-bold text-luxury-brown/40">Précisions (Optionnel)</label>
+            <textarea 
+              rows={4}
+              value={formData.message}
+              onChange={(e) => setFormData({...formData, message: e.target.value})}
+              placeholder="Détails sur votre pièce..."
+              className="w-full bg-transparent border border-gold/20 p-4 outline-none focus:border-gold transition-all italic text-sm resize-none"
+            />
+          </div>
+
+          <button 
+            type="submit"
+            className="w-full py-5 gold-gradient text-white uppercase text-[10px] tracking-[0.4em] font-bold gold-glow hover:translate-y-[-2px] transition-all"
+          >
+            Demander mon rendez-vous
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+
 // --- Legal Page Component ---
 const LegalPage = ({ onBack }: { onBack: () => void }) => {
+  const { t } = useTranslation();
   return (
     <div className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
       <motion.div
@@ -2017,6 +2331,7 @@ const LegalPage = ({ onBack }: { onBack: () => void }) => {
 
 // --- Privacy Page Component ---
 const PrivacyPage = ({ onBack }: { onBack: () => void }) => {
+  const { t } = useTranslation();
   return (
     <div className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
       <motion.div
@@ -2489,9 +2804,14 @@ const ProductDetailPage = ({ product, setPage, onAddToCart, onToggleWishlist, is
   onToggleWishlist: (p: Product) => void,
   isLiked: boolean,
   onBack: () => void 
-}) => (
-  <div className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
-    <BackButton onClick={onBack} />
+}) => {
+  const { t } = useTranslation();
+  const translatedName = t(`footer.products.${product.id}.name`);
+  const productName = translatedName !== `footer.products.${product.id}.name` ? translatedName : product.name;
+
+  return (
+    <div className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+      <BackButton onClick={onBack} />
 
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start mb-24">
       <motion.div
@@ -2528,14 +2848,14 @@ const ProductDetailPage = ({ product, setPage, onAddToCart, onToggleWishlist, is
         </div>
 
         <div className="space-y-6">
-          <h3 className="text-xl font-serif border-b border-gold/20 pb-2">L'Histoire</h3>
+          <h3 className="text-xl font-serif border-b border-gold/20 pb-2">{t('common.history')}</h3>
           <p className="text-luxury-brown/80 leading-relaxed italic">
             "{product.history}"
           </p>
         </div>
 
         <div className="space-y-6">
-          <h3 className="text-xl font-serif border-b border-gold/20 pb-2">Matières Précieuses</h3>
+          <h3 className="text-xl font-serif border-b border-gold/20 pb-2">{t('common.materials')}</h3>
           <ul className="grid grid-cols-2 gap-4">
             {product.materials.map((material, i) => (
               <li key={i} className="flex items-center space-x-3 text-sm text-luxury-brown/70">
@@ -2547,7 +2867,7 @@ const ProductDetailPage = ({ product, setPage, onAddToCart, onToggleWishlist, is
         </div>
 
         <div className="space-y-6">
-          <h3 className="text-xl font-serif border-b border-gold/20 pb-2">Processus de Création</h3>
+          <h3 className="text-xl font-serif border-b border-gold/20 pb-2">{t('common.process')}</h3>
           <p className="text-sm text-luxury-brown/70 leading-relaxed">
             {product.process}
           </p>
@@ -2559,13 +2879,13 @@ const ProductDetailPage = ({ product, setPage, onAddToCart, onToggleWishlist, is
             className="flex-grow py-5 gold-gradient text-white uppercase text-xs tracking-[0.3em] font-bold gold-glow hover:opacity-90 transition-opacity flex items-center justify-center space-x-3"
           >
             <ShoppingBag size={18} />
-            <span>Ajouter au panier</span>
+            <span>{t('common.add_to_cart')}</span>
           </button>
           <button 
             onClick={() => setPage('contact')}
             className="flex-grow py-5 border border-gold/50 text-gold uppercase text-xs tracking-[0.3em] font-bold hover:bg-gold hover:text-white transition-all flex items-center justify-center"
           >
-            Consultation privée
+            {t('common.private_consultation')}
           </button>
         </div>
       </motion.div>
@@ -2574,7 +2894,7 @@ const ProductDetailPage = ({ product, setPage, onAddToCart, onToggleWishlist, is
     {/* Gallery Section */}
     <div className="space-y-12">
       <div className="text-center">
-        <h3 className="text-3xl font-serif mb-2 italic">Galerie de Détails</h3>
+        <h3 className="text-3xl font-serif mb-2 italic">{t('common.gallery')}</h3>
         <div className="w-24 h-[1px] bg-gold mx-auto" />
       </div>
       
@@ -2600,6 +2920,7 @@ const ProductDetailPage = ({ product, setPage, onAddToCart, onToggleWishlist, is
     </div>
   </div>
 );
+};
 
 // --- Drawer Cart Component ---
 const CartDrawer = ({ isOpen, onClose, items, onRemove, onUpdateQuantity, onCheckout }: { 
@@ -3081,6 +3402,7 @@ const CheckoutPage = ({ items, onComplete, onBack }: { items: CartItem[], onComp
 
 export default function App() {
   const { scrollYProgress } = useScroll();
+  const { language, setLanguage } = useTranslation();
   const [page, setPage] = useState<Page>('home');
   const [history, setHistory] = useState<Page[]>(['home']);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -3233,9 +3555,12 @@ export default function App() {
             {page === 'search' && <SearchPage setPage={navigate} onProductClick={handleProductClick} onAddToCart={addToCart} onToggleWishlist={toggleWishlist} wishlist={wishlist} onBack={handleGoBack} />}
             {page === 'contact' && <ContactPage onBack={handleGoBack} />}
 
+
             {page === 'deliveries-returns' && <DeliveriesReturnsPage onBack={handleGoBack} />}
-            {page === 'size-guide' && <SizeGuidePage onBack={handleGoBack} />}
-            {page === 'jewelry-care' && <JewelryCarePage onBack={handleGoBack} />}
+            {page === 'size-guide' && <SizeGuidePage onBack={handleGoBack} setPage={navigate} />}
+            {page === 'ring-sizer-request' && <RingSizerRequestPage onBack={handleGoBack} />}
+            {page === 'jewelry-care' && <JewelryCarePage onBack={handleGoBack} setPage={navigate} />}
+            {page === 'care-appointment' && <CareAppointmentPage onBack={handleGoBack} />}
             {page === 'legal' && <LegalPage onBack={handleGoBack} />}
             {page === 'privacy' && <PrivacyPage onBack={handleGoBack} />}
             {page === 'register' && <RegisterPage setPage={navigate} onBack={handleGoBack} user={user} setUser={setUser} />}

@@ -1,0 +1,196 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "brand": "La Marque",
+    "collections": "Collections",
+    "signature": "Pièce Signature",
+    "contact": "Contact",
+    "account": "Compte",
+    "logout": "Déconnexion",
+    "search": "Recherche"
+  },
+  "footer": {
+    "tagline": "\"Là où le corps devient œuvre d'art\"",
+    "navigation": "Navigation",
+    "customer_service": "Service Client",
+    "newsletter": "Newsletter",
+    "subscribe": "S'abonner",
+    "deliveries_returns": "Livraison & Retours",
+    "size_guide": "Guide des Tailles",
+    "jewelry_care": "Entretien des Bijoux",
+    "categories": {
+      "all": "Tout voir",
+      "rings": "Bagues",
+      "bracelets": "Bracelets",
+      "necklaces": "Colliers",
+      "earrings": "Boucles d'oreilles"
+    },
+    "placeholder_email": "votre@email.com",
+    "placeholder_success": "Merci !",
+    "newsletter_desc": "Restez informé de nos créations exclusives.",
+    "newsletter_error": "Une erreur est survenue.",
+    "products": {
+      "1": { "name": "Éclat Divin", "category": "Boucles d'oreilles" },
+      "2": { "name": "Perles de Rosée", "category": "Colliers" },
+      "3": { "name": "Lignes de Vie", "category": "Bagues" },
+      "4": { "name": "Sillage d'Argent", "category": "Bracelets" },
+      "5": { "name": "Goutte de Lumière", "category": "Colliers" },
+      "6": { "name": "Émeraude Royale", "category": "Bagues" },
+      "100": { "name": "L'Auréole d'Éternité", "category": "Signature" }
+    },
+    "legal": "Mentions Légales",
+    "privacy": "Confidentialité",
+    "rights": "© {{year}} Aurelion Maison de Bijoux. Tous droits réservés."
+  },
+  "common": {
+    "back": "Retour",
+    "discover": "Découvrir",
+    "starting_at": "À partir de",
+    "add_to_cart": "Ajouter au panier",
+    "private_consultation": "Consultation privée",
+    "history": "L'Histoire",
+    "materials": "Matières Précieuses",
+    "process": "Processus de Création",
+    "gallery": "Galerie de Détails",
+    "favorite": "Favori",
+    "like": "Aimer",
+    "visit_workshop": "Visiter l'Atelier",
+    "brand_story": "L'histoire de la Maison",
+    "secure_payment": "Paiement Sécurisé",
+    "checkout": "Passer commande",
+    "learn_more": "Découvrir son histoire"
+  },
+  "home": {
+    "welcome_back": "Ravi de vous revoir, {{name}}. Votre collection vous attend.",
+    "hero_subtitle": "Maison de Haute Joaillerie",
+    "hero_title_1": "Là où le corps devient",
+    "hero_title_2": "œuvre d'art",
+    "hero_title": "Là où le corps devient œuvre d'art",
+    "view_collections": "Explorer les Collections",
+    "featured_collections": "Collections Phares",
+    "featured_subtitle": "L'essence de la joaillerie contemporaine",
+    "explore_catalogue": "Explorer le Catalogue",
+    "vision_label": "La Vision Auréolienne",
+    "vision_title_1": "Le Savoir-Faire",
+    "vision_title_2": "Transcendant",
+    "vision_title": "Le Savoir-Faire Transcendant",
+    "vision_quote": "\"Chaque création est une odyssée artisanale, où l'or est sculpté pour capturer l'éternité. Nous ne créons pas seulement des bijoux, nous forgeons des talismans pour l'âme moderne.\"",
+    "atelier_note": "\"Le bijou est la ponctuation de l'élégance.\""
+  },
+  "brand": {
+    "title": "L'Héritage Aurelion",
+    "subtitle": "Un voyage entre tradition séculaire et vision d'avenir.",
+    "history_title": "Notre Histoire",
+    "history_text": "Fondée au cœur de Paris, la Maison Aurelion est née d'un désir simple : capturer l'essence de la lumière à travers le métal le plus noble. Depuis trois générations, nos artisans se transmettent les secrets d'une forge d'exception, où chaque geste est une prière à la beauté.",
+    "craft_title": "L'Excellence du Geste",
+    "craft_text": "Chaque pièce qui sort de notre atelier est le fruit d'une quête obsessionnelle de perfection. Nous d'abordons pas le bijou comme un accessoire, mais comme une extension de l'âme, une structure organique qui dialogue avec le corps.",
+    "vision_title": "Une Vision Durable",
+    "vision_text": "Aurelion s'engage pour une joaillerie consciente. Nous utilisons exclusivement de l'or recyclé 24 carats et des pierres sourcées de manière éthique, garantissant que la brillance de nos bijoux ne laisse aucune ombre sur le monde.",
+    "timeline_title": "L'Odyssée du Métal",
+    "timeline_subtitle": "Notre Héritage",
+    "timeline_desc_1": "Tout a commencé dans un appartement discret du Marais, à Paris, en 2012. Là où d'autres voyaient des bijoux comme de simples ornements, nous y voyions des manifestes. La Maison Aurelion est née de l'envie de briser les codes de la joaillerie traditionnelle, trop souvent figée dans le temps.",
+    "timeline_desc_2": "Au fil des années, Aurelion a évolué pour devenir un phare de l'innovation. En fusionnant les techniques de fonte à la cire perdue du XVIIIe siècle avec la modélisation architecturale 3D, nous avons créé un langage visuel unique : le \"Brutalisme Précieux\". Chaque pièce raconte le passage du temps et la permanence de l'esprit.",
+    "timeline_label": "12 Ans",
+    "timeline_sublabel": "De recherche sur la lumière et la forme",
+    "chronology_title": "Les Étapes du Temps",
+    "chronology_subtitle": "Chronologie",
+    "chronology_hint": "Cliquer sur une étape pour explorer",
+    "pillars_title": "Nos Piliers",
+    "pillars_subtitle": "Chronologie",
+    "pillar_1_title": "Excellence Artisanale",
+    "pillar_1_desc": "Nous ne tolérons aucune approximation. Chaque serti, chaque polissage est réalisé à la main dans nos ateliers parisiens par des maîtres joailliers dédiés.",
+    "pillar_2_title": "Éthique Radicale",
+    "pillar_2_desc": "100% de notre or est recyclé. Nos pierres sont sourcées via des canaux certifiés garantissant des conditions de travail dignes et un impact environnemental réduit.",
+    "pillar_3_title": "Innovation Formelle",
+    "pillar_3_desc": "Nous explorons les limites du portable. Nos bijoux sont conçus pour être des extensions organiques du corps, défiant la gravité et les conventions.",
+    "workshop_label": "L'Atelier",
+    "workshop_title": "Là où la matière devient poésie",
+    "workshop_desc": "Travailler à l'établi requiert une patience infinie. Dans notre atelier du 3ème arrondissement, le silence n'est rompu que par le chant des limes et le souffle du chalumeau. C'est ici que l'âme de la Maison prend vie.",
+    "craft_steps": {
+      "step_1_title": "L'Épure",
+      "step_1_desc": "Tout commence par un trait architectural, une recherche d'équilibre entre le plein et le vide.",
+      "step_2_title": "La Forge",
+      "step_2_desc": "Le métal est dompté par la flamme, sculpté avec une intensité qui confère à chaque pièce son caractère unique.",
+      "step_3_title": "L'Âme",
+      "step_3_desc": "Le sertissage des pierres et le polissage final révèlent la lumière intérieure de l'œuvre."
+    },
+    "timeline": {
+      "p1_event": "Naissance du Brutalisme Précieux. Elise Aurelion fonde la Maison dans un atelier secret du Marais.",
+      "p1_details": "Après des années d'études en architecture, Elise Aurelion décide de transposer les principes du brutalisme — l'honnêteté des matériaux, la force des structures — à l'échelle du bijou. Dans son premier atelier du Marais, elle sculpte des pièces massives, refusant les ornementations superflues pour célébrer la rudesse noble du métal précieux.",
+      "p2_event": "L'Héritage d'Exception. Présentation de 'Lignes de Vie' à la Fashion Week de Milan.",
+      "p2_details": "Marquant l'entrée de la Maison sur la scène internationale, la collection 'Lignes de Vie' stupéfie par son utilisation audacieuse de l'or brossé et ses textures rappelant l'écorce terrestre. Milan devient le témoin d'une nouvelle ère où le bijou n'est plus un accessoire, mais une extension sculpturale de l'identité.",
+      "p3_event": "L'Atelier-Vaisseau. Inauguration d'un espace de création manifeste à Paris.",
+      "p3_details": "Conçu comme une œuvre d'art totale, l'Atelier-Vaisseau est le cœur battant de la Maison. C'est ici que fusionnent les technologies de pointe et les gestes ancestraux. Les imprimantes 3D haute résolution côtoient les enclumes séculaires, permettant une liberté de forme jusqu'alors jugée impossible.",
+      "p4_event": "Résonance Mondiale. Ouverture des galeries à Tokyo et New York.",
+      "p4_details": "L'art d'Aurelion traverse les océans. Les ouvertures simultanées à Tokyo et New York marquent la consécration du 'Brutalisme Précieux' comme un langage universel. Chaque galerie est pensée pour refléter l'âme de la Maison tout en s'imprégnant de la culture locale, créant un dialogue global entre matière et environnement."
+    }
+  },
+  "collections": {
+    "title": "Nos Collections",
+    "subtitle": "L'expression de notre savoir-faire à travers le temps.",
+    "filter_all": "Tous les Bijoux",
+    "categories": {
+      "earrings": "Boucles d'oreilles",
+      "necklaces": "Colliers",
+      "bracelets": "Bracelets",
+      "rings": "Bagues"
+    }
+  },
+  "signature": {
+    "label": "Pièce Signature",
+    "title_1": "L'Auréole",
+    "title_2": "d'Éternité",
+    "description": "Une prouesse technique et artistique. Façonnée dans un or 24 carats recyclé, cette manchette sculpturale semble flotter autour du poignet, capturant la lumière sous chaque angle."
+  },
+  "contact": {
+    "title": "Entrer en Contact",
+    "subtitle": "Un accompagnement personnalisé par nos conseillers.",
+    "form": {
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "email": "Email",
+      "subject": "Sujet",
+      "message": "Message",
+      "send": "Envoyer le message",
+      "success": "Demande transmise",
+      "success_desc": "Votre client mail a été ouvert pour finaliser l'envoi. Nous reviendrons vers vous dans les plus brefs délais.",
+      "send_another": "Envoyer un autre message",
+      "note": "Service de rendez-vous privilégié",
+      "office": "Boutique Signature",
+      "email_label": "Email de contact",
+      "nature_label": "Nature de la demande",
+      "message_label": "Votre message",
+      "message_placeholder": "Comment pouvons-nous vous accompagner ?",
+      "subject_1": "Rendez-vous à la boutique Paris",
+      "subject_2": "Conseil en joaillerie personnalisée",
+      "subject_3": "Entretien d'une pièce d'exception",
+      "subject_4": "Autre demande prestigieuse"
+    },
+    "info": {
+      "boutique": "Boutique Paris",
+      "address": "22 Place Vendôme, 75001 Paris",
+      "hours": "Lun - Sam: 10h00 - 19h00",
+      "phone": "+33 1 23 45 67 89"
+    }
+  },
+  "products": {
+    "sculpted_gold": {
+      "name": "L'Or Sculpté",
+      "history": "Une exploration des volumes et des textures, où l'or est travaillé comme une structure organique suspendue dans le temps.",
+      "materials": ["Or 24 carats recyclé", "Finition brossée satinée"],
+      "process": "Modelage à la main de structures complexes pour capturer la lumière sous tous les angles."
+    },
+    "dew_pearls": {
+      "name": "Perles de Rosée",
+      "history": "L'élégance intemporelle de la perle, revisitée pour la femme moderne avec un minimalisme poétique.",
+      "materials": ["Perles de mer du Sud", "Or blanc 18 carats"],
+      "process": "Sélection rigoureuse de perles pour leur lustre exceptionnel et leur forme parfaite."
+    },
+    "life_lines": {
+      "name": "Lignes de Vie",
+      "history": "Un équilibre parfait entre rigidité et fluidité, cette manchette épouse le poignet comme une seconde peau d'or.",
+      "materials": ["Or jaune 18 carats poli miroir"],
+      "process": "Forgeage haute précision pour une flexibilité structurelle unique."
+    }
+  }
+}

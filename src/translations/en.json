@@ -1,0 +1,196 @@
+{
+  "nav": {
+    "home": "Home",
+    "brand": "The Brand",
+    "collections": "Collections",
+    "signature": "Signature Piece",
+    "contact": "Contact",
+    "account": "Account",
+    "logout": "Logout",
+    "search": "Search"
+  },
+  "footer": {
+    "tagline": "\"Where the body becomes a work of art\"",
+    "navigation": "Navigation",
+    "customer_service": "Customer Service",
+    "newsletter": "Newsletter",
+    "subscribe": "Subscribe",
+    "deliveries_returns": "Delivery & Returns",
+    "size_guide": "Size Guide",
+    "jewelry_care": "Jewelry Care",
+    "categories": {
+      "all": "View All",
+      "rings": "Rings",
+      "bracelets": "Bracelets",
+      "necklaces": "Necklaces",
+      "earrings": "Earrings"
+    },
+    "placeholder_email": "your@email.com",
+    "placeholder_success": "Thank you!",
+    "newsletter_desc": "Stay informed about our exclusive creations.",
+    "newsletter_error": "An error occurred.",
+    "products": {
+      "1": { "name": "Divine Radiance", "category": "Earrings" },
+      "2": { "name": "Dew Drops", "category": "Necklaces" },
+      "3": { "name": "Life Lines", "category": "Rings" },
+      "4": { "name": "Silver Trail", "category": "Bracelets" },
+      "5": { "name": "Light Drop", "category": "Necklaces" },
+      "6": { "name": "Royal Emerald", "category": "Rings" },
+      "100": { "name": "The Eternity Halo", "category": "Signature" }
+    },
+    "legal": "Legal Notice",
+    "privacy": "Privacy Policy",
+    "rights": "© {{year}} Aurelion Jewelry House. All rights reserved."
+  },
+  "common": {
+    "back": "Back",
+    "discover": "Discover",
+    "starting_at": "Starting at",
+    "add_to_cart": "Add to Cart",
+    "private_consultation": "Private Consultation",
+    "history": "The History",
+    "materials": "Precious Materials",
+    "process": "Creation Process",
+    "gallery": "Details Gallery",
+    "favorite": "Favorite",
+    "like": "Like",
+    "visit_workshop": "Visit Workshop",
+    "brand_story": "Brand Story",
+    "secure_payment": "Secure Payment",
+    "checkout": "Checkout",
+    "learn_more": "Discover History"
+  },
+  "home": {
+    "welcome_back": "Welcome back, {{name}}. Your collection awaits.",
+    "hero_subtitle": "High Jewelry House",
+    "hero_title_1": "Where the body becomes a",
+    "hero_title_2": "work of art",
+    "hero_title": "Where the body becomes a work of art",
+    "view_collections": "Explore Collections",
+    "featured_collections": "Featured Collections",
+    "featured_subtitle": "The essence of contemporary jewelry",
+    "explore_catalogue": "Explore Catalogue",
+    "vision_label": "The Aurelion Vision",
+    "vision_title_1": "Transcendent",
+    "vision_title_2": "Craftsmanship",
+    "vision_title": "Transcendent Craftsmanship",
+    "vision_quote": "\"Every creation is a hallowed odyssey, where gold is sculpted to capture eternity. We don't just create jewelry, we forge talismans for the modern soul.\"",
+    "atelier_note": "\"Jewelry is the punctuation of elegance.\""
+  },
+  "brand": {
+    "title": "The Aurelion Heritage",
+    "subtitle": "A journey between centuries-old tradition and a vision for the future.",
+    "history_title": "Our Story",
+    "history_text": "Founded in the heart of Paris, Maison Aurelion was born from a simple desire: to capture the essence of light through the noblest of metals. For three generations, our artisans have passed down the secrets of exceptional forging, where every gesture is a prayer to beauty.",
+    "craft_title": "Excellence in Gesture",
+    "craft_text": "Every piece that leaves our workshop is the result of an stones quest for perfection. We do not approach jewelry as an accessory, but as an extension of the soul, an organic structure that dialogues with the body.",
+    "vision_title": "A Sustainable Vision",
+    "vision_text": "Aurelion is committed to conscious jewelry. We exclusively use 24-karat recycled gold and ethically sourced stones, ensuring that the brilliance of our jewelry leaves no shadow on the world.",
+    "timeline_title": "The Metal Odyssey",
+    "timeline_subtitle": "Our Heritage",
+    "timeline_desc_1": "It all began in a discreet apartment in the Marais, Paris, in 2012. Where others saw jewelry as mere ornaments, we saw them as manifestos. Maison Aurelion was born from the desire to break the codes of traditional jewelry, too often frozen in time.",
+    "timeline_desc_2": "Over the years, Aurelion has evolved to become a beacon of innovation. By merging 18th-century lost-wax casting techniques with 3D architectural modeling, we have created a unique visual language: 'Precious Brutalism'. Every piece tells the passage of time and the permanence of the spirit.",
+    "timeline_label": "12 Years",
+    "timeline_sublabel": "Of research into light and form",
+    "chronology_title": "Steps Through Time",
+    "chronology_subtitle": "Chronology",
+    "chronology_hint": "Click on a step to explore",
+    "pillars_title": "Our Pillars",
+    "pillars_subtitle": "Chronology",
+    "pillar_1_title": "Artisanal Excellence",
+    "pillar_1_desc": "We tolerate no approximation. Every setting, every polishing is done by hand in our Parisian workshops by dedicated master jewelers.",
+    "pillar_2_title": "Radical Ethics",
+    "pillar_2_desc": "100% of our gold is recycled. Our stones are sourced through certified channels guaranteeing dignified working conditions and a reduced environmental impact.",
+    "pillar_3_title": "Formal Innovation",
+    "pillar_3_desc": "We explore the limits of the wearable. Our jewelry is designed to be organic extensions of the body, defying gravity and conventions.",
+    "workshop_label": "The Workshop",
+    "workshop_title": "Where matter becomes poetry",
+    "workshop_desc": "Working at the bench requires infinite patience. In our studio in the 3rd arrondissement, the silence is only broken by the song of files and the breath of the torch. This is where the soul of the House comes to life.",
+    "craft_steps": {
+      "step_1_title": "The Sketch",
+      "step_1_desc": "Everything begins with an architectural line, a search for balance between full and empty.",
+      "step_2_title": "The Forge",
+      "step_2_desc": "The metal is tamed by the flame, sculpted with an intensity that gives each piece its unique character.",
+      "step_3_title": "The Soul",
+      "step_3_desc": "The stone setting and final polishing reveal the inner light of the work."
+    },
+    "timeline": {
+      "p1_event": "Birth of Precious Brutalism. Elise Aurelion founds the House in a secret studio in the Marais.",
+      "p1_details": "After years of studying architecture, Elise Aurelion decides to transpose the principles of brutalism — honesty of materials, strength of structures — to the scale of jewelry. In her first studio in the Marais, she sculpts massive pieces, refusing superfluous ornamentation to celebrate the noble roughness of precious metal.",
+      "p2_event": "Exceptional Heritage. Presentation of 'Life Lines' at Milan Fashion Week.",
+      "p2_details": "Marking the House's entry onto the international stage, the 'Life Lines' collection stuns with its bold use of brushed gold and textures reminiscent of the earth's bark. Milan becomes the witness to a new era where jewelry is no longer an accessory, but a sculptural extension of identity.",
+      "p3_event": "The Vessel-Studio. Inauguration of a landmark creative space in Paris.",
+      "p3_details": "Conceived as a total work of art, the Vessel-Studio is the beating heart of the House. This is where cutting-edge technologies and ancestral gestures merge. High-resolution 3D printers stand alongside centuries-old anvils, allowing for structural freedom previously thought impossible.",
+      "p4_event": "Global Resonance. Opening of galleries in Tokyo and New York.",
+      "p4_details": "The art of Aurelion crosses oceans. Simultaneous openings in Tokyo and New York mark the consecration of 'Precious Brutalism' as a universal language. Each gallery is designed to reflect the House's soul while soaking up local culture, creating a global dialogue between matter and environment."
+    }
+  },
+  "collections": {
+    "title": "Our Collections",
+    "subtitle": "The expression of our craftsmanship through time.",
+    "filter_all": "All Jewelry",
+    "categories": {
+      "earrings": "Earrings",
+      "necklaces": "Necklaces",
+      "bracelets": "Bracelets",
+      "rings": "Rings"
+    }
+  },
+  "signature": {
+    "label": "Signature Piece",
+    "title_1": "The Halo",
+    "title_2": "of Eternity",
+    "description": "A technical and artistic feat. Crafted in recycled 24-karat gold, this sculptural cuff seems to float around the wrist, capturing light from every angle."
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "Personalized guidance from our advisors.",
+    "form": {
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "send": "Send Message",
+      "success": "Request Sent",
+      "success_desc": "Your mail client has been opened to finalize the sending. We will get back to you as soon as possible.",
+      "send_another": "Send another message",
+      "note": "Privileged Appointment Service",
+      "office": "Signature Boutique",
+      "email_label": "Contact Email",
+      "nature_label": "Nature of Request",
+      "message_label": "Your Message",
+      "message_placeholder": "How can we assist you?",
+      "subject_1": "Paris Boutique Appointment",
+      "subject_2": "Custom Jewelry Consultation",
+      "subject_3": "Exceptional Piece Maintenance",
+      "subject_4": "Other Prestigious Request"
+    },
+    "info": {
+      "boutique": "Paris Boutique",
+      "address": "22 Place Vendôme, 75001 Paris",
+      "hours": "Mon - Sat: 10:00 AM - 7:00 PM",
+      "phone": "+33 1 23 45 67 89"
+    }
+  },
+  "products": {
+    "sculpted_gold": {
+      "name": "Sculpted Gold",
+      "history": "An exploration of volumes and textures, where gold is worked like an organic structure suspended in time.",
+      "materials": ["Recycled 24k gold", "Satin brushed finish"],
+      "process": "Hand-modeling of complex structures to capture light from all angles."
+    },
+    "dew_pearls": {
+      "name": "Dew Pearls",
+      "history": "The timeless elegance of the pearl, revisited for the modern woman with poetic minimalism.",
+      "materials": ["South Sea pearls", "18k white gold"],
+      "process": "Rigorous selection of pearls for their exceptional luster and perfect shape."
+    },
+    "life_lines": {
+      "name": "Life Lines",
+      "history": "A perfect balance between rigidity and fluidity, this cuff embraces the wrist like a second skin of gold.",
+      "materials": ["18k yellow gold mirror polish"],
+      "process": "High-precision forging for unique structural flexibility."
+    }
+  }
+}
